@@ -1,0 +1,29 @@
+# Python version
+# Requires Python 3.8
+
+# Jupyter environment
+ipykernel
+jupyter
+
+# Data manipulation & scientific computing
+numpy==2.2.5
+pandas==2.2.3
+scipy==1.15.2
+
+# Machine Learning
+joblib>=1.1.1
+scikit-learn==1.6.1
+xgboost
+
+# Visualization
+seaborn
+
+# Hand gesture tracking
+mediapipe
+
+# Experiment tracking
+cloudpickle==3.1.1
+mlflow==2.22.0
+
+# Optional utilities
+# psutil==5.9.0
