@@ -1,9 +1,0 @@
-# Python 3.8
-jupyter
-ipykernel
-mediapipe
-pandas
-seaborn
-joblib>=1.1.1
-scikit-learn
-xgboost
