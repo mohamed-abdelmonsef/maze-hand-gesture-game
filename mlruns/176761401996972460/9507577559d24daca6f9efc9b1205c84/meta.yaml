@@ -1,0 +1,16 @@
+artifact_uri: mlflow-artifacts:/176761401996972460/9507577559d24daca6f9efc9b1205c84/artifacts
+deleted_time: 1748809038079
+end_time: 1748808639610
+entry_point_name: ''
+experiment_id: '176761401996972460'
+lifecycle_stage: deleted
+run_id: 9507577559d24daca6f9efc9b1205c84
+run_name: RandomForestClassifier
+run_uuid: 9507577559d24daca6f9efc9b1205c84
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1748808619319
+status: 3
+tags: []
+user_id: dell

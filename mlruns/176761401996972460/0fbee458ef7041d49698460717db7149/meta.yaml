@@ -1,0 +1,16 @@
+artifact_uri: mlflow-artifacts:/176761401996972460/0fbee458ef7041d49698460717db7149/artifacts
+deleted_time: 1748808397935
+end_time: 1748808269969
+entry_point_name: ''
+experiment_id: '176761401996972460'
+lifecycle_stage: deleted
+run_id: 0fbee458ef7041d49698460717db7149
+run_name: SVC_classifier
+run_uuid: 0fbee458ef7041d49698460717db7149
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1748808262379
+status: 3
+tags: []
+user_id: dell
