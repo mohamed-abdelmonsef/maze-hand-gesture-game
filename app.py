@@ -4,8 +4,8 @@ from fastapi.responses import JSONResponse
 import joblib
 import pandas as pd
 from pathlib import Path
-import mlflow
-from mlflow.tracking import MlflowClient
+from pydantic import BaseModel
+from typing import List, Any
 
 
 # Setup logging
@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 app = FastAPI(title="hand gesture prediction")
 
 
-BASE_DIR = Path(__file__).resolve()
+BASE_DIR = Path(__file__).resolve().parent
 MODEL_DIR = BASE_DIR / "models"
 
 model_path = MODEL_DIR / "SVC_classifier.pkl"
@@ -34,6 +34,48 @@ transformer = joblib.load(transformer_path)
 label_encoder = joblib.load(label_encoder_path)
 
 
+
+
+# Define Pydantic input model
+class GestureInput(BaseModel):
+    columns: List[str]
+    data: List[List[Any]]
+
+# Define prediction endpoint
+@app.post("/predict")
+async def predict(payload: GestureInput):
+    logger.info("Received prediction request.")
+    try:
+        # Convert to DataFrame
+        df = pd.DataFrame(payload.data, columns=payload.columns)
+
+        # Transform data
+        X_transformed = transformer.transform(df)
+
+        # Predict
+        prediction_encoded = model.predict(X_transformed)
+        probabilities = model.predict_proba(X_transformed)
+
+        # Decode label
+        prediction_decoded = label_encoder.inverse_transform(prediction_encoded)
+
+        logger.info(f"Prediction: {prediction_decoded[0]}")
+
+        return JSONResponse({
+            "prediction": prediction_decoded[0],
+            "probabilities": probabilities[0].tolist(),
+            "message": "Prediction successful"
+        })
+
+    except Exception as e:
+        logger.error(f"Prediction failed: {e}")
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+
+
+
+"""
 # Predict endpoint for raw data
 @app.post("/predict")
 async def predict(data: dict):
@@ -64,4 +106,4 @@ async def predict(data: dict):
         })
     except Exception as e:
         logger.error(f"Error in prediction: {str(e)}")
-        raise HTTPException(status_code=400, detail=str(e))
+        raise HTTPException(status_code=400, detail=str(e))"""
