@@ -3,7 +3,7 @@ async function getPredictedLabel(processed_t) {
   const flatLandmarks = processed_t.flatMap(p => [p.x, p.y, p.z]);
 
   try {
-    const response = await fetch("http://localhost:8000/predict", {
+    const response = await fetch("https://skyfsyeogvqx.us-east-1.clawcloudrun.com/predict", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
