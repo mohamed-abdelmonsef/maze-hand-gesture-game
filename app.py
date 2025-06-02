@@ -6,6 +6,7 @@ import pandas as pd
 from pathlib import Path
 from pydantic import BaseModel
 from typing import List, Any
+from fastapi.middleware.cors import CORSMiddleware
 
 
 # Setup logging
@@ -14,7 +15,13 @@ logger = logging.getLogger(__name__)
 
 # Initialize FastAPI app
 app = FastAPI(title="hand gesture prediction")
-
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 BASE_DIR = Path(__file__).resolve().parent
 MODEL_DIR = BASE_DIR / "models"
@@ -44,6 +51,13 @@ columns = [
     f"{axis}{i}" for i in range(1, 22) for axis in ["x", "y", "z"]
 ]
 
+gesture_to_command = {
+    "like": "up",
+    "two_up": "down",
+    "fist": "left",
+    "palm": "right"
+}
+
 # Define prediction endpoint
 @app.post("/predict")
 async def predict(payload: GestureInput):
@@ -64,8 +78,12 @@ async def predict(payload: GestureInput):
 
         logger.info(f"Prediction: {prediction_decoded[0]}")
 
+        gesture = prediction_decoded[0]
+        command = gesture_to_command.get(gesture, "unknown")
+
         return JSONResponse({
             "prediction": prediction_decoded[0],
+            "command": command,
             "message": "Prediction successful"
         })
 
