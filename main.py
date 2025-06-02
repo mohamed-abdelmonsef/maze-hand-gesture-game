@@ -4,7 +4,7 @@ import logging
 from colorama import Fore, Style
 import pandas as pd
 from src.models import train_XGBoost, train_random_forest, train_svc
-
+import joblib
 from src.mlflow_logging import log_model_with_mlflow, setup_mlflow_experiment
 
 
@@ -30,7 +30,13 @@ def main():
 
     df = pd.read_csv(data_path)
     
-    target_encoder, X_train, X_test, y_train, y_test = preprocess_train(df, label_encoder_path)
+    transformer,target_encoder, X_train, X_test, y_train, y_test = preprocess_train(df, label_encoder_path)
+
+    # Save transformer locally
+    joblib.dump(target_encoder, output_dir / "target_encoder.pkl")
+    # Save the transformer to a file
+    joblib.dump(transformer, output_dir / "transformer.pkl")
+
     
     print(X_train.shape, X_test.shape, y_train.shape, y_test.shape)
 

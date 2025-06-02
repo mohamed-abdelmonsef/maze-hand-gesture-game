@@ -1,8 +1,9 @@
 artifact_uri: mlflow-artifacts:/176761401996972460/16f3ae7da54f4ce3a1318c262cdb36e6/artifacts
+deleted_time: 1748850031877
 end_time: 1748809283027
 entry_point_name: ''
 experiment_id: '176761401996972460'
-lifecycle_stage: active
+lifecycle_stage: deleted
 run_id: 16f3ae7da54f4ce3a1318c262cdb36e6
 run_name: SVC_classifier
 run_uuid: 16f3ae7da54f4ce3a1318c262cdb36e6

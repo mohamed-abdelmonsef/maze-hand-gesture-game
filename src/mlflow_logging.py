@@ -35,12 +35,11 @@ def log_model_with_mlflow(model, target_encoder, X_test, y_test, model_name: str
         pd_dataset = mlflow.data.from_pandas(X_test, name="Testing Dataset")
         mlflow.log_input(pd_dataset, context="Testing")
 
-        joblib.dump(model, output_dir / f"{model_name}.pkl")
-        # Save transformer locally
-        joblib.dump(target_encoder, output_dir / "transformer.pkl")
-
         # Log the transformer as an artifact
         mlflow.log_artifact(str(output_dir / "transformer.pkl"), artifact_path="transformer")
+        mlflow.log_artifact(str(output_dir / "target_encoder.pkl"), artifact_path="target_encoder")
+
+        joblib.dump(model, output_dir / f"{model_name}.pkl")
 
         signature = mlflow.models.infer_signature(X_test, y_test)
         mlflow.sklearn.log_model(model, model_name, signature=signature, input_example=X_test.iloc[[0]])
