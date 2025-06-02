@@ -7,6 +7,7 @@ from pathlib import Path
 from pydantic import BaseModel
 from typing import List, Any
 from fastapi.middleware.cors import CORSMiddleware
+from prometheus_fastapi_instrumentator import Instrumentator
 
 
 # Setup logging
@@ -22,6 +23,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+Instrumentator().instrument(app).expose(app)
+
 
 BASE_DIR = Path(__file__).resolve().parent
 MODEL_DIR = BASE_DIR / "models"
@@ -55,7 +59,7 @@ gesture_to_command = {
     "like": "up",
     "two_up": "down",
     "fist": "left",
-    "palm": "right"
+    "peace": "right"
 }
 
 # Define prediction endpoint

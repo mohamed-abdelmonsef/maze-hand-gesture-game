@@ -24,6 +24,33 @@ This project implements a gesture-controlled game using machine learning for ges
 - `maze.js` - Maze game logic
 - `mp.js` - Media processing utilities
 
+
+
+## 📊 custom metrics tracked
+
+this application exposes additional prometheus metrics via `/metrics` to monitor model performance and input characteristics:
+
+| metric name           | description                                               | type       |
+|-----------------------|-----------------------------------------------------------|------------|
+| `model_confidence`    | predicted class probability per request                   | histogram  |
+| `input_feature1_mean` | mean value of first input feature across requests         | gauge      |
+| `input_feature1_std`  | standard deviation of first input feature across requests | gauge      |
+
+these metrics help detect:
+- low model confidence → potential out-of-distribution inputs  
+- feature drift → changing distribution in input sensor data
+
+---
+
+## 🛠️ monitoring stack
+
+this project uses **prometheus** and **grafana** to monitor:
+
+- 🔹 model confidence
+- 🔹 input feature drift
+- 🔹 api latency and request throughput
+
+
 ## 🔧 Important Implementation Note
 
 In `api-call.js`, there is a TODO section that needs to be implemented:
